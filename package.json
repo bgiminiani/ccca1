@@ -1,0 +1,18 @@
+{
+  "name": "ccca1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsc:init": "tsc --init",
+    "tsc:build": "tsc",
+    "test": "tsc && jest ./dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "jest": "^27.3.1",
+    "typescript": "^4.4.4"
+  }
+}
