@@ -1,4 +1,5 @@
 import Cpf from './Cpf';
+import Name from './Name';
 export default class EnrollStudent {
   enrollments: any[];
 
@@ -8,9 +9,7 @@ export default class EnrollStudent {
 
 
   execute(enrollmentRequest: any) {
-    if(!(/^([A-Za-z]+ )+([A-Za-z])+$/).test(enrollmentRequest.student.name)) {
-      throw new Error('Invalid name');
-    }
+    const name = new Name(enrollmentRequest.student.name);
     const cpf = new Cpf(enrollmentRequest.student.cpf);
     const  existingStudentEnrollment = this.enrollments.find(enrollment =>
       enrollment.student.cpf === enrollmentRequest.student.cpf);
@@ -18,7 +17,7 @@ export default class EnrollStudent {
     const enrollmentStudent = {
       student: {
         cpf: cpf.value,
-        name: enrollmentRequest.student.name,
+        name: name.value,
       }
     }
     this.enrollments.push(enrollmentStudent);
