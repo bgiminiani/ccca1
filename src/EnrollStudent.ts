@@ -1,5 +1,6 @@
 import Cpf from './Cpf';
 import Name from './Name';
+import Student from './Student';
 export default class EnrollStudent {
   enrollments: any[];
 
@@ -9,17 +10,16 @@ export default class EnrollStudent {
 
 
   execute(enrollmentRequest: any) {
-    const name = new Name(enrollmentRequest.student.name);
-    const cpf = new Cpf(enrollmentRequest.student.cpf);
+    const student = new Student(
+      enrollmentRequest.student.name, 
+      enrollmentRequest.student.cpf
+    );
     const  existingStudentEnrollment = this.enrollments.find(enrollment =>
-      enrollment.student.cpf === enrollmentRequest.student.cpf);
-      if(existingStudentEnrollment) throw new Error('Enrollment duplicated student is not allowed');
+      enrollment.student.cpf.value === enrollmentRequest.student.cpf);
+    if(existingStudentEnrollment) throw new Error('Enrollment duplicated student is not allowed');
     const enrollmentStudent = {
-      student: {
-        cpf: cpf.value,
-        name: name.value,
-      }
-    }
+      student,
+    };
     this.enrollments.push(enrollmentStudent);
   }
 }
