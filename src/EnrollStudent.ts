@@ -1,6 +1,8 @@
 export default class EnrollStudent {
-  constructor() {
+  enrollments: any[];
 
+  constructor() {
+    this.enrollments = [];
   }
 
   validateCpf(cpf = "") {
@@ -53,5 +55,15 @@ export default class EnrollStudent {
     if(!this.validateCpf(enrollmentRequest.student.cpf)) {
       throw new Error('Invalid cpf');
     }
+    const  existingStudentEnrollment = this.enrollments.find(enrollment =>
+      enrollment.student.cpf === enrollmentRequest.student.cpf);
+      if(existingStudentEnrollment) throw new Error('Enrollment duplicated student is not allowed');
+    const enrollmentStudent = {
+      student: {
+        cpf: enrollmentRequest.student.cpf,
+        name: enrollmentRequest.student.name,
+      }
+    }
+    this.enrollments.push(enrollmentStudent);
   }
 }
