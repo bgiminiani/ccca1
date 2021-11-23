@@ -32,3 +32,19 @@ test('Não deve matricular aluno duplicado', () => {
   enrollStudent.execute(enrollmentRequest);
   expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error('Enrollment duplicated student is not allowed'));
 })
+
+test('Deve gerar código de matrícula', () => {
+  const enrollStudent = new EnrollStudent();
+  const enrollmentRequest = {
+    student: {
+      name: 'Ana Lucia',
+      cpf: '407.596.890-16',
+      birthDate: '2002-03-12',
+    },
+    level: 'EM',
+    module: '1',
+    schoolRoom: 'A',
+  };
+  const enrollment = enrollStudent.execute(enrollmentRequest);
+  expect(enrollment.code).toBe('2021EM1A0001');
+})
