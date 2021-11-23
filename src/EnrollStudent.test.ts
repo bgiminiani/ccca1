@@ -27,7 +27,11 @@ test('Não deve matricular aluno duplicado', () => {
     student: {
       name: 'Ana Machado',
       cpf: '990.721.230-00',
-    }
+      birthDate: '2002-03-12',
+    },
+    level: 'EM',
+    module: '1',
+    schoolRoom: 'A',
   };
   enrollStudent.execute(enrollmentRequest);
   expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error('Enrollment duplicated student is not allowed'));
@@ -48,3 +52,18 @@ test('Deve gerar código de matrícula', () => {
   const enrollment = enrollStudent.execute(enrollmentRequest);
   expect(enrollment.code).toBe('2021EM1A0001');
 })
+
+test('Não deve matricular aluno abaixo da idade mínima', () => {
+  const enrollmentStudent = new EnrollStudent();
+  const enrollmentRequest = {
+    student: {
+      name: 'Ana Silva',
+      cpf: '407.596.890-16',
+      birthDate: '2014-03-12',
+    },
+    level: 'EM',
+    module: '1',
+    schoolRoom: 'A',
+  }
+  expect(() => enrollmentStudent.execute(enrollmentRequest)).toThrow('Should not enroll student below minimum age');
+}) 

@@ -123,12 +123,17 @@ export default class EnrollStudent {
       enrollmentRequest.student.name, 
       enrollmentRequest.student.cpf
     );
+    const module = this.modules.find(module => module.level === enrollmentRequest.level &&
+      module.code === enrollmentRequest.module);
+    const studentBirthYear = new Date(enrollmentRequest.student.birthDate).getFullYear();
+    const actualYear = new Date().getFullYear();
+    const studentAge = actualYear - studentBirthYear;
+    if (studentAge < module.minimumAge) throw new Error('Should not enroll student below minimum age');
     const  existingStudentEnrollment = this.enrollments.find(enrollment =>
       enrollment.student.cpf.value === enrollmentRequest.student.cpf);
     if(existingStudentEnrollment) throw new Error('Enrollment duplicated student is not allowed');
     const fullYear = new Date().getFullYear();
-    const { level, module, schoolRoom } = enrollmentRequest;
-    const code = `${fullYear}${level}${module}${schoolRoom}0001`;
+    const code = `${fullYear}${enrollmentRequest.level}${enrollmentRequest.module}${enrollmentRequest.schoolRoom}0001`;
     const enrollmentStudent = {
       student,
       code
