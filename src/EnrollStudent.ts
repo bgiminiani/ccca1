@@ -121,13 +121,12 @@ export default class EnrollStudent {
   execute(enrollmentRequest: any) {
     const student = new Student(
       enrollmentRequest.student.name, 
-      enrollmentRequest.student.cpf
+      enrollmentRequest.student.cpf,
+      enrollmentRequest.student.birthDate,
     );
     const module = this.modules.find(module => module.level === enrollmentRequest.level &&
       module.code === enrollmentRequest.module);
-    const studentBirthYear = new Date(enrollmentRequest.student.birthDate).getFullYear();
-    const actualYear = new Date().getFullYear();
-    const studentAge = actualYear - studentBirthYear;
+    const studentAge = student.getAge();
     if (studentAge < module.minimumAge) throw new Error('Should not enroll student below minimum age');
     const  existingStudentEnrollment = this.enrollments.find(enrollment =>
       enrollment.student.cpf.value === enrollmentRequest.student.cpf);
