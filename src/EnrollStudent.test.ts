@@ -53,6 +53,32 @@ test('Deve gerar código de matrícula', () => {
   expect(enrollment.code).toBe('2021EM1A0001');
 })
 
+test('Deve gerar código de matrícula e incrementar o sequencial pelo total de matrículas existentes', () => {
+  const enrollStudent = new EnrollStudent();
+  enrollStudent.execute({
+    student: {
+      name: 'Ana Lucia',
+      cpf: '407.596.890-16',
+      birthDate: '2002-03-12',
+    },
+    level: 'EM',
+    module: '1',
+    schoolRoom: 'A',
+  });
+  const enrollmentRequest = {
+    student: {
+      name: 'Sabrina Alves',
+      cpf: '372.916.940-86',
+      birthDate: '2003-07-06',
+    },
+    level: 'EM',
+    module: '1',
+    schoolRoom: 'B',
+  }
+  const enrollment = enrollStudent.execute(enrollmentRequest);
+  expect(enrollment.code).toBe('2021EM1B0002');
+})
+
 test('Não deve matricular aluno abaixo da idade mínima', () => {
   const enrollStudent = new EnrollStudent();
   const enrollmentRequest = {

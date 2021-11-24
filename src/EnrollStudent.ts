@@ -113,6 +113,12 @@ export default class EnrollStudent {
             module: "1",
             code: "A",
             capacity: 1 
+        },
+        {
+            level: "EM",
+            module: "1",
+            code: "B",
+            capacity: 2 
         }
     ];
     this.enrollments = [];
@@ -140,7 +146,8 @@ export default class EnrollStudent {
     const isOverRoomCapacity = enrollments.length >= room.capacity;
     if (isOverRoomCapacity) throw new Error('Should not enroll student over class capacity');
     const fullYear = new Date().getFullYear();
-    const code = `${fullYear}${enrollmentRequest.level}${enrollmentRequest.module}${enrollmentRequest.schoolRoom}0001`;
+    const sequence = (this.enrollments.length + 1).toString().padStart(4,'0');
+    const code = `${fullYear}${enrollmentRequest.level}${enrollmentRequest.module}${enrollmentRequest.schoolRoom}${sequence}`;
     const enrollmentStudent = {
       student,
       code,
