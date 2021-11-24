@@ -54,7 +54,7 @@ test('Deve gerar código de matrícula', () => {
 })
 
 test('Não deve matricular aluno abaixo da idade mínima', () => {
-  const enrollmentStudent = new EnrollStudent();
+  const enrollStudent = new EnrollStudent();
   const enrollmentRequest = {
     student: {
       name: 'Ana Silva',
@@ -64,6 +64,32 @@ test('Não deve matricular aluno abaixo da idade mínima', () => {
     level: 'EM',
     module: '1',
     schoolRoom: 'A',
-  }
-  expect(() => enrollmentStudent.execute(enrollmentRequest)).toThrow('Should not enroll student below minimum age');
+  };
+  expect(() => enrollStudent.execute(enrollmentRequest)).toThrow('Should not enroll student below minimum age');
 }) 
+
+test('Não deve matricular aluno fora da capacidade da turma', () => {
+  const enrollStudent = new EnrollStudent();
+  const enrollmentRequest1 = {
+    student: {
+      name: 'Ana Silva',
+      cpf: '407.596.890-16',
+      birthDate: '2002-03-12',
+    },
+    level: 'EM',
+    module: '1',
+    schoolRoom: 'A',
+  };
+  const enrollmentRequest2 = {
+    student: {
+      name: 'Sabrina Alves',
+      cpf: '372.916.940-86',
+      birthDate: '2003-07-06',
+    },
+    level: 'EM',
+    module: '1',
+    schoolRoom: 'A',
+  }
+  enrollStudent.execute(enrollmentRequest1);
+  expect(() => enrollStudent.execute(enrollmentRequest2)).toThrow('Should not enroll student over class capacity');
+});

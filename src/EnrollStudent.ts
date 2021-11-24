@@ -110,9 +110,9 @@ export default class EnrollStudent {
     this.schoolRoom = [
         {
             level: "EM",
-            module: "3",
+            module: "1",
             code: "A",
-            capacity: 10
+            capacity: 1 
         }
     ];
     this.enrollments = [];
@@ -131,11 +131,22 @@ export default class EnrollStudent {
     const  existingStudentEnrollment = this.enrollments.find(enrollment =>
       enrollment.student.cpf.value === enrollmentRequest.student.cpf);
     if(existingStudentEnrollment) throw new Error('Enrollment duplicated student is not allowed');
+    const enrollments = this.enrollments.filter(enrollment => enrollment.level === enrollmentRequest.level &&
+      enrollment.module === enrollmentRequest.module &&
+      enrollment.schoolRoom === enrollmentRequest.schoolRoom);
+    const room = this.schoolRoom.find(room => room.level === enrollmentRequest.level &&
+      room.module === enrollmentRequest.module &&
+      room.code === enrollmentRequest.schoolRoom);
+    const isOverRoomCapacity = enrollments.length >= room.capacity;
+    if (isOverRoomCapacity) throw new Error('Should not enroll student over class capacity');
     const fullYear = new Date().getFullYear();
     const code = `${fullYear}${enrollmentRequest.level}${enrollmentRequest.module}${enrollmentRequest.schoolRoom}0001`;
     const enrollmentStudent = {
       student,
-      code
+      code,
+      level: enrollmentRequest.level,
+      module: enrollmentRequest.module,
+      schoolRoom: enrollmentRequest.schoolRoom,
     };
     this.enrollments.push(enrollmentStudent);
     return enrollmentStudent;
