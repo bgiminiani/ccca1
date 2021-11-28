@@ -1,12 +1,13 @@
+import EnrollmentRepository from './EnrollmentRepository';
 import Student from './Student';
 
 export default class EnrollStudent {
-  enrollments: any[];
   levels: any[];
   modules: any[];
   schoolRoom: any[];
+  enrollmentRepository: EnrollmentRepository;
 
-  constructor() {
+  constructor(enrollmentRepository: EnrollmentRepository) {
     this.levels = [
       {
           code: "EF1",
@@ -121,7 +122,7 @@ export default class EnrollStudent {
             capacity: 2 
         }
     ];
-    this.enrollments = [];
+    this.enrollmentRepository = enrollmentRepository;
   }
 
   execute(enrollmentRequest: any) {
@@ -138,16 +139,13 @@ export default class EnrollStudent {
       schoolRoom.code === enrollmentRequest.schoolRoom);
     const studentAge = student.getAge();
     if (studentAge < module.minimumAge) throw new Error('Should not enroll student below minimum age');
-    const  existingStudentEnrollment = this.enrollments.find(enrollment =>
-      enrollment.student.cpf.value === enrollmentRequest.student.cpf);
+    const  existingStudentEnrollment = this.enrollmentRepository.findByCpf(student.cpf.value);
     if(existingStudentEnrollment) throw new Error('Enrollment duplicated student is not allowed');
-    const studentEnrolledInSchollRoom = this.enrollments.filter(enrollment => enrollment.level === level.code &&
-      enrollment.module === module.code &&
-      enrollment.schoolRoom === schoolRoom.code);
+    const studentEnrolledInSchollRoom = this.enrollmentRepository.findAllBySchoolRomm(level.code, module.code, schoolRoom.code)
     const isOverRoomCapacity = studentEnrolledInSchollRoom.length >= schoolRoom.capacity;
     if (isOverRoomCapacity) throw new Error('Should not enroll student over class capacity');
     const fullYear = new Date().getFullYear();
-    const sequence = (this.enrollments.length + 1).toString().padStart(4,'0');
+    const sequence = (this.enrollmentRepository.count() + 1).toString().padStart(4,'0');
     const code = `${fullYear}${level.code}${module.code}${schoolRoom.code}${sequence}`;
     const enrollmentStudent = {
       student,
@@ -156,7 +154,7 @@ export default class EnrollStudent {
       module: module.code,
       schoolRoom: schoolRoom.code,
     };
-    this.enrollments.push(enrollmentStudent);
+    this.enrollmentRepository.save(enrollmentStudent);
     return enrollmentStudent;
   }
 }

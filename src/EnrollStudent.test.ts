@@ -1,7 +1,14 @@
+import EnrollmentRepositoryMemory from './EnrollmentRepositoryMemory';
 import EnrollStudent from './EnrollStudent';
 
+let enrollStudent: EnrollStudent;
+
+beforeEach(() => {
+  const enrollmentRepository = new EnrollmentRepositoryMemory()
+  enrollStudent = new EnrollStudent(enrollmentRepository);
+})
+
 test('Não deve matricular aluno com nome inválido', () => {
-  const enrollStudent = new EnrollStudent();
   const enrollmentRequest = {
     student: {
       name: 'Ana',
@@ -11,7 +18,6 @@ test('Não deve matricular aluno com nome inválido', () => {
 })
 
 test('Não deve matricular aluno com cpf inválido', () => {
-  const enrollStudent = new EnrollStudent();
   const enrollmentRequest = {
     student: {
       name: 'Ana Machado',
@@ -22,7 +28,6 @@ test('Não deve matricular aluno com cpf inválido', () => {
 })
 
 test('Não deve matricular aluno duplicado', () => {
-  const enrollStudent = new EnrollStudent();
   const enrollmentRequest = {
     student: {
       name: 'Ana Machado',
@@ -38,7 +43,6 @@ test('Não deve matricular aluno duplicado', () => {
 })
 
 test('Deve gerar código de matrícula', () => {
-  const enrollStudent = new EnrollStudent();
   const enrollmentRequest = {
     student: {
       name: 'Ana Lucia',
@@ -54,7 +58,6 @@ test('Deve gerar código de matrícula', () => {
 })
 
 test('Deve gerar código de matrícula e incrementar o sequencial pelo total de matrículas existentes', () => {
-  const enrollStudent = new EnrollStudent();
   enrollStudent.execute({
     student: {
       name: 'Ana Lucia',
@@ -80,7 +83,6 @@ test('Deve gerar código de matrícula e incrementar o sequencial pelo total de 
 })
 
 test('Não deve matricular aluno abaixo da idade mínima', () => {
-  const enrollStudent = new EnrollStudent();
   const enrollmentRequest = {
     student: {
       name: 'Ana Silva',
@@ -95,7 +97,6 @@ test('Não deve matricular aluno abaixo da idade mínima', () => {
 }) 
 
 test('Não deve matricular aluno fora da capacidade da turma', () => {
-  const enrollStudent = new EnrollStudent();
   const enrollmentRequest1 = {
     student: {
       name: 'Ana Silva',
