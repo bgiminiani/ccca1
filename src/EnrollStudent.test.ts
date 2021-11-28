@@ -1,11 +1,21 @@
 import EnrollmentRepositoryMemory from './EnrollmentRepositoryMemory';
 import EnrollStudent from './EnrollStudent';
+import LevelRepositoryMemory from './LevelRepositoryMemory';
+import ModuleRepositoryMemory from './ModuleRepositoryMemory';
+import SchoolRoomRepositoryMemory from './SchoolRoomRepositoryMemory';
 
 let enrollStudent: EnrollStudent;
 
 beforeEach(() => {
-  const enrollmentRepository = new EnrollmentRepositoryMemory()
-  enrollStudent = new EnrollStudent(enrollmentRepository);
+  const enrollmentRepository = new EnrollmentRepositoryMemory();
+  const levelRepository = new LevelRepositoryMemory();
+  const moduleRepository = new ModuleRepositoryMemory();
+  const schoolRoomRepository = new SchoolRoomRepositoryMemory();
+  enrollStudent = new EnrollStudent(
+    levelRepository, 
+    moduleRepository,
+    schoolRoomRepository,
+    enrollmentRepository);
 })
 
 test('Não deve matricular aluno com nome inválido', () => {
