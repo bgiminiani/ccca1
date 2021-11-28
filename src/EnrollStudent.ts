@@ -1,3 +1,4 @@
+import Enrollment from './Enrollment';
 import EnrollmentRepository from './EnrollmentRepository';
 import LevelRepository from './LevelRepository';
 import ModuleRepository from './ModuleRepository';
@@ -39,14 +40,13 @@ export default class EnrollStudent {
     const fullYear = new Date().getFullYear();
     const sequence = (this.enrollmentRepository.count() + 1).toString().padStart(4,'0');
     const code = `${fullYear}${level.code}${module.code}${schoolRoom.code}${sequence}`;
-    const enrollmentStudent = {
+    const enrollment = new Enrollment(
       student,
       code,
-      level: level.code,
-      module: module.code,
-      schoolRoom: schoolRoom.code,
-    };
-    this.enrollmentRepository.save(enrollmentStudent);
-    return enrollmentStudent;
+      level.code,
+      module.code,
+      schoolRoom.code);
+    this.enrollmentRepository.save(enrollment);
+    return enrollment;
   }
 }
