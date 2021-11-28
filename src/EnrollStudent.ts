@@ -141,10 +141,10 @@ export default class EnrollStudent {
     const  existingStudentEnrollment = this.enrollments.find(enrollment =>
       enrollment.student.cpf.value === enrollmentRequest.student.cpf);
     if(existingStudentEnrollment) throw new Error('Enrollment duplicated student is not allowed');
-    const enrollments = this.enrollments.filter(enrollment => enrollment.level === level.code &&
+    const studentEnrolledInSchollRoom = this.enrollments.filter(enrollment => enrollment.level === level.code &&
       enrollment.module === module.code &&
       enrollment.schoolRoom === schoolRoom.code);
-    const isOverRoomCapacity = enrollments.length >= schoolRoom.capacity;
+    const isOverRoomCapacity = studentEnrolledInSchollRoom.length >= schoolRoom.capacity;
     if (isOverRoomCapacity) throw new Error('Should not enroll student over class capacity');
     const fullYear = new Date().getFullYear();
     const sequence = (this.enrollments.length + 1).toString().padStart(4,'0');
@@ -152,9 +152,9 @@ export default class EnrollStudent {
     const enrollmentStudent = {
       student,
       code,
-      level: enrollmentRequest.level,
-      module: enrollmentRequest.module,
-      schoolRoom: enrollmentRequest.schoolRoom,
+      level: level.code,
+      module: module.code,
+      schoolRoom: schoolRoom.code,
     };
     this.enrollments.push(enrollmentStudent);
     return enrollmentStudent;
