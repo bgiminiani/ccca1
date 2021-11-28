@@ -130,24 +130,25 @@ export default class EnrollStudent {
       enrollmentRequest.student.cpf,
       enrollmentRequest.student.birthDate,
     );
+    const level = this.levels.find(level => level.code === enrollmentRequest.level);
     const module = this.modules.find(module => module.level === enrollmentRequest.level &&
       module.code === enrollmentRequest.module);
+    const schoolRoom = this.schoolRoom.find(schoolRoom => schoolRoom.level === enrollmentRequest.level &&
+      schoolRoom.module === enrollmentRequest.module &&
+      schoolRoom.code === enrollmentRequest.schoolRoom);
     const studentAge = student.getAge();
     if (studentAge < module.minimumAge) throw new Error('Should not enroll student below minimum age');
     const  existingStudentEnrollment = this.enrollments.find(enrollment =>
       enrollment.student.cpf.value === enrollmentRequest.student.cpf);
     if(existingStudentEnrollment) throw new Error('Enrollment duplicated student is not allowed');
-    const enrollments = this.enrollments.filter(enrollment => enrollment.level === enrollmentRequest.level &&
-      enrollment.module === enrollmentRequest.module &&
-      enrollment.schoolRoom === enrollmentRequest.schoolRoom);
-    const room = this.schoolRoom.find(room => room.level === enrollmentRequest.level &&
-      room.module === enrollmentRequest.module &&
-      room.code === enrollmentRequest.schoolRoom);
-    const isOverRoomCapacity = enrollments.length >= room.capacity;
+    const enrollments = this.enrollments.filter(enrollment => enrollment.level === level.code &&
+      enrollment.module === module.code &&
+      enrollment.schoolRoom === schoolRoom.code);
+    const isOverRoomCapacity = enrollments.length >= schoolRoom.capacity;
     if (isOverRoomCapacity) throw new Error('Should not enroll student over class capacity');
     const fullYear = new Date().getFullYear();
     const sequence = (this.enrollments.length + 1).toString().padStart(4,'0');
-    const code = `${fullYear}${enrollmentRequest.level}${enrollmentRequest.module}${enrollmentRequest.schoolRoom}${sequence}`;
+    const code = `${fullYear}${level.code}${module.code}${schoolRoom.code}${sequence}`;
     const enrollmentStudent = {
       student,
       code,
