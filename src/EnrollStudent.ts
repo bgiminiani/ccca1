@@ -30,6 +30,9 @@ export default class EnrollStudent {
     const level = this.levelRepository.find(enrollmentRequest.level);
     const module = this.moduleRepository.find(enrollmentRequest.level, enrollmentRequest.module);
     const schoolRoom = this.schoolRoomRepository.find(enrollmentRequest.level, enrollmentRequest.module, enrollmentRequest.schoolRoom);
+    const enrollmentDate = Date.now();
+    const schoolRoomEndDate = new Date(schoolRoom.endDate).getTime();
+    if (enrollmentDate > schoolRoomEndDate) throw new Error('Class is already finished');
     const studentAge = student.getAge();
     if (studentAge < module.minimumAge) throw new Error('Should not enroll student below minimum age');
     const  existingStudentEnrollment = this.enrollmentRepository.findByCpf(student.cpf.value);

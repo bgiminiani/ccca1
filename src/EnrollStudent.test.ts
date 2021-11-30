@@ -130,3 +130,17 @@ test('Não deve matricular aluno fora da capacidade da turma', () => {
   enrollStudent.execute(enrollmentRequest1);
   expect(() => enrollStudent.execute(enrollmentRequest2)).toThrow('Should not enroll student over class capacity');
 });
+
+test('Não pode matricular aluno numa turma após o término das aulas', () => {
+  const enrollmentRequest = {
+    student: {
+      name: 'Sabrina Alves',
+      cpf: '372.916.940-86',
+      birthDate: '2003-07-06',
+    },
+    level: 'EM',
+    module: '1',
+    schoolRoom: 'C',
+  }
+  expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error('Class is already finished'));
+});

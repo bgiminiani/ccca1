@@ -8,13 +8,25 @@ export default class SchoolRoomRepositoryMemory implements SchoolRoomRepository 
           level: "EM",
           module: "1",
           code: "A",
-          capacity: 1 
+          capacity: 1, 
+          startDate: "2021-01-20",
+          endDate: "2021-12-31",
       },
       {
           level: "EM",
           module: "1",
           code: "B",
-          capacity: 2 
+          capacity: 2,
+          startDate: "2021-01-20",
+          endDate: "2021-12-31",
+      },
+      {
+          level: "EM",
+          module: "1",
+          code: "C",
+          capacity: 2,
+          startDate: "2021-01-20",
+          endDate: "2021-11-20",
       }
     ];
   }
