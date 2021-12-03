@@ -1,9 +1,9 @@
-import SchoolRoomRepository from "./SchoolRoomRepository";
+import ClassroomRepository from "./ClassroomRepository";
 
-export default class SchoolRoomRepositoryMemory implements SchoolRoomRepository {
-  schoolRooms: any[];
+export default class ClassroomRepositoryMemory implements ClassroomRepository {
+  classrooms: any[];
   constructor() {
-    this.schoolRooms = [
+    this.classrooms = [
       {
           level: "EM",
           module: "1",
@@ -32,11 +32,11 @@ export default class SchoolRoomRepositoryMemory implements SchoolRoomRepository 
   }
 
   find(level: string, module: string, code: string) {
-    const schoolRoom = this.schoolRooms.find(schoolRoom => schoolRoom.level === level &&
-      schoolRoom.module === module &&
-      schoolRoom.code === code);
-    if (!schoolRoom)new Error("School Room not found.");
-    return schoolRoom;
+    const classroom = this.classrooms.find(classroom => classroom.level === level &&
+      classroom.module === module &&
+      classroom.code === code);
+    if (!classroom)new Error("Class room not found.");
+    return classroom;
   }
 
 }

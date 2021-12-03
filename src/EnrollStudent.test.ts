@@ -2,7 +2,7 @@ import EnrollmentRepositoryMemory from './EnrollmentRepositoryMemory';
 import EnrollStudent from './EnrollStudent';
 import LevelRepositoryMemory from './LevelRepositoryMemory';
 import ModuleRepositoryMemory from './ModuleRepositoryMemory';
-import SchoolRoomRepositoryMemory from './SchoolRoomRepositoryMemory';
+import ClassroomRepositoryMemory from './ClassroomRepositoryMemory';
 
 let enrollStudent: EnrollStudent;
 
@@ -10,11 +10,11 @@ beforeEach(() => {
   const enrollmentRepository = new EnrollmentRepositoryMemory();
   const levelRepository = new LevelRepositoryMemory();
   const moduleRepository = new ModuleRepositoryMemory();
-  const schoolRoomRepository = new SchoolRoomRepositoryMemory();
+  const classroomRepository = new ClassroomRepositoryMemory();
   enrollStudent = new EnrollStudent(
     levelRepository, 
     moduleRepository,
-    schoolRoomRepository,
+    classroomRepository,
     enrollmentRepository);
 })
 
@@ -46,7 +46,7 @@ test('Não deve matricular aluno duplicado', () => {
     },
     level: 'EM',
     module: '1',
-    schoolRoom: 'A',
+    classroom: 'A',
   };
   enrollStudent.execute(enrollmentRequest);
   expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error('Enrollment duplicated student is not allowed'));
@@ -61,7 +61,7 @@ test('Deve gerar código de matrícula', () => {
     },
     level: 'EM',
     module: '1',
-    schoolRoom: 'A',
+    classroom: 'A',
   };
   const enrollment = enrollStudent.execute(enrollmentRequest);
   expect(enrollment.code).toBe('2021EM1A0001');
@@ -76,7 +76,7 @@ test('Deve gerar código de matrícula e incrementar o sequencial pelo total de 
     },
     level: 'EM',
     module: '1',
-    schoolRoom: 'A',
+    classroom: 'A',
   });
   const enrollmentRequest = {
     student: {
@@ -86,7 +86,7 @@ test('Deve gerar código de matrícula e incrementar o sequencial pelo total de 
     },
     level: 'EM',
     module: '1',
-    schoolRoom: 'B',
+    classroom: 'B',
   }
   const enrollment = enrollStudent.execute(enrollmentRequest);
   expect(enrollment.code).toBe('2021EM1B0002');
@@ -101,7 +101,7 @@ test('Não deve matricular aluno abaixo da idade mínima', () => {
     },
     level: 'EM',
     module: '1',
-    schoolRoom: 'A',
+    classroom: 'A',
   };
   expect(() => enrollStudent.execute(enrollmentRequest)).toThrow('Should not enroll student below minimum age');
 }) 
@@ -115,7 +115,7 @@ test('Não deve matricular aluno fora da capacidade da turma', () => {
     },
     level: 'EM',
     module: '1',
-    schoolRoom: 'A',
+    classroom: 'A',
   };
   const enrollmentRequest2 = {
     student: {
@@ -125,7 +125,7 @@ test('Não deve matricular aluno fora da capacidade da turma', () => {
     },
     level: 'EM',
     module: '1',
-    schoolRoom: 'A',
+    classroom: 'A',
   }
   enrollStudent.execute(enrollmentRequest1);
   expect(() => enrollStudent.execute(enrollmentRequest2)).toThrow('Should not enroll student over class capacity');
@@ -140,7 +140,7 @@ test('Não pode matricular aluno numa turma após o término das aulas', () => {
     },
     level: 'EM',
     module: '1',
-    schoolRoom: 'C',
+    classroom: 'C',
   }
   expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error('Class is already finished'));
 });
