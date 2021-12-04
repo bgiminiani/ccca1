@@ -1,7 +1,8 @@
+import Enrollment from "./Enrollment";
 import EnrollmentRepository from "./EnrollmentRepository";
 
 export default class EnrollmentRepositoryMemory implements EnrollmentRepository{
-  enrollments: any[];
+  enrollments: Enrollment[];
   constructor() {
     this.enrollments = []
   }

@@ -4,6 +4,8 @@ import LevelRepository from './LevelRepository';
 import ModuleRepository from './ModuleRepository';
 import ClassroomRepository from './ClassroomRepository';
 import Student from './Student';
+import LevelRepositoryMemory from './LevelRepositoryMemory';
+import Level from './Level';
 
 export default class EnrollStudent {
   levelRepository: LevelRepository;
@@ -27,8 +29,8 @@ export default class EnrollStudent {
       enrollmentRequest.student.cpf,
       enrollmentRequest.student.birthDate,
     );
-    const level = this.levelRepository.find(enrollmentRequest.level);
-    const module = this.moduleRepository.find(enrollmentRequest.level, enrollmentRequest.module);
+    const level = new Level({code: enrollmentRequest.level, description: enrollmentRequest.description});
+    const module = this.moduleRepository.find(level.getCode(), enrollmentRequest.module);
     const classroom = this.classroomRepository.find(enrollmentRequest.level, enrollmentRequest.module, enrollmentRequest.classroom);
     const enrollmentDate = Date.now();
     const classroomEndDate = new Date(classroom.endDate).getTime();
@@ -42,7 +44,7 @@ export default class EnrollStudent {
     if (isOverRoomCapacity) throw new Error('Should not enroll student over class capacity');
     const fullYear = new Date().getFullYear();
     const sequence = (this.enrollmentRepository.count() + 1).toString().padStart(4,'0');
-    const code = `${fullYear}${level.code}${module.code}${classroom.code}${sequence}`;
+    const code = `${fullYear}${level.getCode()}${module.code}${classroom.code}${sequence}`;
     const enrollment = new Enrollment(
       student,
       code,
