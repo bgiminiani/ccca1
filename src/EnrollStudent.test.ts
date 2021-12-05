@@ -86,10 +86,10 @@ test('Deve gerar código de matrícula e incrementar o sequencial pelo total de 
     },
     level: 'EM',
     module: '1',
-    classroom: 'B',
+    classroom: 'A',
   }
   const enrollment = enrollStudent.execute(enrollmentRequest);
-  expect(enrollment.code.value).toBe('2021EM1B0002');
+  expect(enrollment.code.value).toBe('2021EM1A0002');
 })
 
 test('Não deve matricular aluno abaixo da idade mínima', () => {
@@ -115,7 +115,7 @@ test('Não deve matricular aluno fora da capacidade da turma', () => {
     },
     level: 'EM',
     module: '1',
-    classroom: 'A',
+    classroom: 'D',
   };
   const enrollmentRequest2 = {
     student: {
@@ -125,7 +125,7 @@ test('Não deve matricular aluno fora da capacidade da turma', () => {
     },
     level: 'EM',
     module: '1',
-    classroom: 'A',
+    classroom: 'D',
   }
   enrollStudent.execute(enrollmentRequest1);
   expect(() => enrollStudent.execute(enrollmentRequest2)).toThrow('Should not enroll student over class capacity');
@@ -144,3 +144,17 @@ test('Não pode matricular aluno numa turma após o término das aulas', () => {
   }
   expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error('Class is already finished'));
 });
+
+test('Não pode matricular aluno numa turma, após ter excedido o tempo em 25% da data de início desta turma', () => {
+  const enrollmentRequest = {
+    student: {
+      name: 'Sabrina Alves',
+      cpf: '372.916.940-86',
+      birthDate: '2003-07-06',
+    },
+    level: 'EM',
+    module: '1',
+    classroom: 'B',
+  }
+  expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error('Class time period exceeded 25% of its start date'))
+})

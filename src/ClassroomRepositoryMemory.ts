@@ -9,15 +9,15 @@ export default class ClassroomRepositoryMemory implements ClassroomRepository {
           level: "EM",
           module: "1",
           code: "A",
-          capacity: 1,
-          startDate: new Date("2021-01-20"),
-          endDate: new Date("2021-12-31"),
+          capacity: 2,
+          startDate: new Date("2021-08-20"),
+          endDate: new Date("2022-12-31"),
       }),
       new Classroom({
           level: "EM",
           module: "1",
           code: "B",
-          capacity: 2,
+          capacity: 1,
           startDate: new Date("2021-06-20"),
           endDate: new Date("2021-12-31"),
       }),
@@ -28,7 +28,15 @@ export default class ClassroomRepositoryMemory implements ClassroomRepository {
           capacity: 2,
           startDate: new Date("2021-06-20"),
           endDate: new Date("2021-11-20"),
-      })
+      }),
+      new Classroom({
+          level: "EM",
+          module: "1",
+          code: "D",
+          capacity: 1,
+          startDate: new Date("2021-08-20"),
+          endDate: new Date("2022-12-31"),
+      }),
     ];
   }
 
