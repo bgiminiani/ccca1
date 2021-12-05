@@ -1,3 +1,5 @@
+import Period from "./Period";
+
 export default class Classroom {
   level: string;
   module: string;
@@ -5,6 +7,7 @@ export default class Classroom {
   capacity: number;
   startDate: Date;
   endDate: Date;
+  period: Period;
 
   constructor({
     level,
@@ -27,21 +30,16 @@ export default class Classroom {
     this.capacity = capacity;
     this.startDate = startDate;
     this.endDate = endDate;
+    this.period = new Period(this.startDate, this.endDate);
   }
 
   isFinished(currentDate: Date) {
     return currentDate.getTime() >= this.endDate.getTime();
   }
 
-  getLengthInDays() {
-    const diffInMilli = this.endDate.getTime() - this.startDate.getTime();
-    return diffInMilli/(1000*60*60*24);
-
-  }
-
   getProgress(currentDate: Date) {
-    const diffInMilliUntilEndDate = currentDate.getTime() - this.startDate.getTime()
-    const remainInDays = diffInMilliUntilEndDate/(1000*60*60*24);
-    return ((remainInDays / this.getLengthInDays()) * 100);
+    const leftToTheEnd = new Period(this.startDate, currentDate).getDiffInDays();
+    const periodOfClassroom = this.period.getDiffInDays();
+    return leftToTheEnd / periodOfClassroom * 100;
   }
 }
