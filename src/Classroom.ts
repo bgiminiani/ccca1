@@ -3,8 +3,8 @@ export default class Classroom {
   module: string;
   code: string;
   capacity: number;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
 
   constructor({
     level,
@@ -18,8 +18,8 @@ export default class Classroom {
     module: string,
     code: string,
     capacity: number,
-    startDate: string,
-    endDate: string,
+    startDate: Date,
+    endDate: Date,
   }) {
     this.level = level;
     this.module = module;
@@ -27,5 +27,9 @@ export default class Classroom {
     this.capacity = capacity;
     this.startDate = startDate;
     this.endDate = endDate;
+  }
+
+  isFinished(currentDate: Date) {
+    return currentDate.getTime() >= this.endDate.getTime();
   }
 }

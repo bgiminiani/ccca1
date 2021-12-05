@@ -10,24 +10,24 @@ export default class ClassroomRepositoryMemory implements ClassroomRepository {
           module: "1",
           code: "A",
           capacity: 1,
-          startDate: "2021-01-20",
-          endDate: "2021-12-31",
+          startDate: new Date("2021-01-20"),
+          endDate: new Date("2021-12-31"),
       }),
       new Classroom({
           level: "EM",
           module: "1",
           code: "B",
           capacity: 2,
-          startDate: "2021-01-20",
-          endDate: "2021-12-31",
+          startDate: new Date("2021-06-20"),
+          endDate: new Date("2021-12-31"),
       }),
       new Classroom({
           level: "EM",
           module: "1",
           code: "C",
           capacity: 2,
-          startDate: "2021-01-20",
-          endDate: "2021-11-20",
+          startDate: new Date("2021-06-20"),
+          endDate: new Date("2021-11-20"),
       })
     ];
   }

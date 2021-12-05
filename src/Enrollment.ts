@@ -15,6 +15,7 @@ export default class Enrollment {
 
   constructor(student: Student, level: Level, module: Module, classroom: Classroom, issueDate: Date, sequence: number) {
     if (student.getAge() < module.minimumAge) throw new Error('Should not enroll student below minimum age');
+    if(classroom.isFinished(issueDate)) throw new Error('Class is already finished');
     this.student = student;
     this.level = level;
     this.module = module;
