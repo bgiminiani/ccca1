@@ -12,6 +12,7 @@ export default class Enrollment {
   issueDate: Date;
   sequence: number;
   code: EnrollmentCode;
+  invoices: any[];
 
   constructor(student: Student, level: Level, module: Module, classroom: Classroom, issueDate: Date, sequence: number) {
     if (student.getAge() < module.minimumAge) throw new Error('Should not enroll student below minimum age');
@@ -24,5 +25,6 @@ export default class Enrollment {
     this.issueDate = issueDate;
     this.sequence = sequence;
     this.code = new EnrollmentCode(level.code, module.code, classroom.code, issueDate, sequence);
+    this.invoices = [];
   }
 }

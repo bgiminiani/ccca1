@@ -158,3 +158,21 @@ test('Não pode matricular aluno numa turma, após ter excedido o tempo em 25% d
   }
   expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error('Class time period exceeded 25% of its start date'))
 })
+
+test.only('Deve gerar fatura do aluno matriculado', () => {
+  const enrollmentRequest = {
+    student: {
+      name: 'Sabrina Alves',
+      cpf: '372.916.940-86',
+      birthDate: '2003-07-06',
+    },
+    level: 'EM',
+    module: '1',
+    classroom: 'D',
+    installments: 12
+  }
+  const enrollment = enrollStudent.execute(enrollmentRequest);
+  expect(enrollment.invoices).toHaveLength(12);
+  expect(enrollment.invoices[0].amount).toBe(1416.66);
+  expect(enrollment.invoices[11].amount).toBe(1416.73);
+})

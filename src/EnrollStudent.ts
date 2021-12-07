@@ -53,6 +53,19 @@ export default class EnrollStudent {
       classroom,
       issueDate,
       enrollmentSequence);
+   
+    let installmentAmount = Math.trunc((module.price / enrollmentRequest.installments) * 100) / 100
+    for(let i = 1; i <= enrollmentRequest.installments; i++) {
+      enrollment.invoices.push({
+        amount: installmentAmount,
+      });
+    }
+    const total = enrollment.invoices.reduce((total, invoice) => {
+      total+= invoice.amount;
+      return total;
+    }, 0);
+    const rest = Math.trunc((module.price - total)*100)/100;
+    enrollment.invoices[enrollment.invoices.length - 1].amount = installmentAmount + rest; 
     this.enrollmentRepository.save(enrollment);
     return enrollment;
   }
