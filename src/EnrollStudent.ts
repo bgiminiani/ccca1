@@ -4,8 +4,8 @@ import LevelRepository from './LevelRepository';
 import ModuleRepository from './ModuleRepository';
 import ClassroomRepository from './ClassroomRepository';
 import Student from './Student';
-import LevelRepositoryMemory from './LevelRepositoryMemory';
 import Level from './Level';
+import RepositoryAbstractFactory from './RepositoryAbstractFactory';
 
 export default class EnrollStudent {
   levelRepository: LevelRepository;
@@ -13,14 +13,11 @@ export default class EnrollStudent {
   enrollmentRepository: EnrollmentRepository;
   classroomRepository: ClassroomRepository;
 
-  constructor(levelRepository: LevelRepository, 
-    moduleRepository: ModuleRepository,
-    classroomRepository: ClassroomRepository,
-    enrollmentRepository: EnrollmentRepository) {
-    this.levelRepository = levelRepository;
-    this.moduleRepository = moduleRepository;
-    this.classroomRepository = classroomRepository;
-    this.enrollmentRepository = enrollmentRepository;
+  constructor(repositoryFactory: RepositoryAbstractFactory) {
+    this.levelRepository = repositoryFactory.createLevelRepository();
+    this.moduleRepository = repositoryFactory.createModuleRepository();
+    this.classroomRepository = repositoryFactory.createClassroomRepository();
+    this.enrollmentRepository = repositoryFactory.createEnrollmentRepository();
   }
 
   execute(enrollmentRequest: any) {
