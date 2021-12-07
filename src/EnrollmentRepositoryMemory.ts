@@ -1,7 +1,5 @@
 import Enrollment from "./Enrollment";
 import EnrollmentRepository from "./EnrollmentRepository";
-import Level from "./Level";
-import Module from "./Module";
 
 export default class EnrollmentRepositoryMemory implements EnrollmentRepository{
   enrollments: Enrollment[];
