@@ -6,7 +6,6 @@ import ClassroomRepository from './ClassroomRepository';
 import Student from './Student';
 import RepositoryAbstractFactory from './RepositoryAbstractFactory';
 import EnrollmentStudentInputData from './EnrollmentStudentInputData';
-import EnrollmentStudentOutputData from './EnrollmentStudentOutputData';
 
 export default class EnrollStudent {
   levelRepository: LevelRepository;
@@ -53,7 +52,6 @@ export default class EnrollStudent {
       enrollmentSequence,
       enrollmentStudentInputData.installments);
    
-    enrollment.generateInvoice()
     this.enrollmentRepository.save(enrollment);
     return enrollment;
   }

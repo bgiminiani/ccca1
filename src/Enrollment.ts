@@ -3,6 +3,7 @@ import Module from "./Module";
 import Classroom from "./Classroom";
 import Student from "./Student"
 import EnrollmentCode from "./EnrollmentCode";
+import Invoice from "./Invoice";
 
 export default class Enrollment {
   student: Student;
@@ -13,7 +14,7 @@ export default class Enrollment {
   sequence: number;
   code: EnrollmentCode;
   installments: number;
-  invoices: any[];
+  invoices: Invoice[];
 
   constructor(student: Student, level: Level, module: Module, classroom: Classroom, issueDate: Date, sequence: number, installments = 1) {
     if (student.getAge() < module.minimumAge) throw new Error('Should not enroll student below minimum age');
@@ -26,16 +27,15 @@ export default class Enrollment {
     this.issueDate = issueDate;
     this.sequence = sequence;
     this.code = new EnrollmentCode(level.code, module.code, classroom.code, issueDate, sequence);
-    this.installments = installments;
     this.invoices = [];
+    this.installments = installments;
+    this.generateInvoice();
   }
 
   generateInvoice() {
     let installmentAmount = Math.trunc((this.module.price / this.installments) * 100) / 100
     for(let i = 1; i <= this.installments; i++) {
-      this.invoices.push({
-        amount: installmentAmount,
-      });
+      this.invoices.push(new Invoice(this.code.value, i, this.issueDate.getFullYear(), installmentAmount));
     }
     const total = this.invoices.reduce((total, invoice) => {
       total+= invoice.amount;
