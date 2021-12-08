@@ -4,8 +4,9 @@ import LevelRepository from './LevelRepository';
 import ModuleRepository from './ModuleRepository';
 import ClassroomRepository from './ClassroomRepository';
 import Student from './Student';
-import Level from './Level';
 import RepositoryAbstractFactory from './RepositoryAbstractFactory';
+import EnrollmentStudentInputData from './EnrollmentStudentInputData';
+import EnrollmentStudentOutputData from './EnrollmentStudentOutputData';
 
 export default class EnrollStudent {
   levelRepository: LevelRepository;
@@ -20,15 +21,15 @@ export default class EnrollStudent {
     this.enrollmentRepository = repositoryFactory.createEnrollmentRepository();
   }
 
-  execute(enrollmentRequest: any) {
+  execute(enrollmentStudentInputData: EnrollmentStudentInputData) {
     const student = new Student(
-      enrollmentRequest.student.name, 
-      enrollmentRequest.student.cpf,
-      enrollmentRequest.student.birthDate,
+      enrollmentStudentInputData.studentName, 
+      enrollmentStudentInputData.studentCpf,
+      enrollmentStudentInputData.studentBirthDate,
     );
-    const level = new Level({code: enrollmentRequest.level, description: enrollmentRequest.description});
-    const module = this.moduleRepository.find(level.getCode(), enrollmentRequest.module);
-    const classroom = this.classroomRepository.find(enrollmentRequest.level, enrollmentRequest.module, enrollmentRequest.classroom);
+    const level = this.levelRepository.find(enrollmentStudentInputData.level);
+    const module = this.moduleRepository.find(level.getCode(), enrollmentStudentInputData.module);
+    const classroom = this.classroomRepository.find(enrollmentStudentInputData.level, enrollmentStudentInputData.module, enrollmentStudentInputData.classroom);
 
     const enrollmentDate = Date.now();
     const classroomEndDate = new Date(classroom.endDate).getTime();
@@ -50,7 +51,7 @@ export default class EnrollStudent {
       classroom,
       issueDate,
       enrollmentSequence,
-      enrollmentRequest.installments);
+      enrollmentStudentInputData.installments);
    
     enrollment.generateInvoice()
     this.enrollmentRepository.save(enrollment);
