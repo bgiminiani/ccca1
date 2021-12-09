@@ -6,6 +6,7 @@ import ClassroomRepository from './ClassroomRepository';
 import Student from './Student';
 import RepositoryAbstractFactory from './RepositoryAbstractFactory';
 import EnrollmentStudentInputData from './EnrollmentStudentInputData';
+import EnrollmentStudentOutputData from './EnrollmentStudentOutputData';
 
 export default class EnrollStudent {
   levelRepository: LevelRepository;
@@ -20,7 +21,7 @@ export default class EnrollStudent {
     this.enrollmentRepository = repositoryFactory.createEnrollmentRepository();
   }
 
-  execute(enrollmentStudentInputData: EnrollmentStudentInputData) {
+  execute(enrollmentStudentInputData: EnrollmentStudentInputData): EnrollmentStudentOutputData {
     const student = new Student(
       enrollmentStudentInputData.studentName, 
       enrollmentStudentInputData.studentCpf,
@@ -51,8 +52,11 @@ export default class EnrollStudent {
       issueDate,
       enrollmentSequence,
       enrollmentStudentInputData.installments);
-   
     this.enrollmentRepository.save(enrollment);
-    return enrollment;
+    const enrollmentStudentOutputData = new EnrollmentStudentOutputData(enrollment.code.value)
+    for(const invoice of enrollment.invoices) {
+      enrollmentStudentOutputData.invoices.push(invoice.clone())
+    }
+    return enrollmentStudentOutputData;
   }
 }

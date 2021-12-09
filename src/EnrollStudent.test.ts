@@ -59,7 +59,7 @@ test('Deve gerar código de matrícula', () => {
     installments: 12
   });
   const enrollment = enrollStudent.execute(enrollmentStudentInputData);
-  expect(enrollment.code.value).toBe('2021EM1A0001');
+  expect(enrollment.code).toBe('2021EM1A0001');
 })
 
 test('Deve gerar código de matrícula e incrementar o sequencial pelo total de matrículas existentes', () => {
@@ -82,7 +82,7 @@ test('Deve gerar código de matrícula e incrementar o sequencial pelo total de 
     installments: 12
   });
   const enrollment = enrollStudent.execute(enrollmentStudentInputData);
-  expect(enrollment.code.value).toBe('2021EM1A0002');
+  expect(enrollment.code).toBe('2021EM1A0002');
 })
 
 test('Não deve matricular aluno abaixo da idade mínima', () => {
