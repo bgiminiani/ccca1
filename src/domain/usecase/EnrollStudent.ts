@@ -1,12 +1,12 @@
-import Enrollment from './Enrollment';
-import EnrollmentRepository from './EnrollmentRepository';
-import LevelRepository from './LevelRepository';
-import ModuleRepository from './ModuleRepository';
-import ClassroomRepository from './ClassroomRepository';
-import Student from './Student';
-import RepositoryAbstractFactory from './RepositoryAbstractFactory';
-import EnrollmentStudentInputData from './EnrollmentStudentInputData';
-import EnrollmentStudentOutputData from './EnrollmentStudentOutputData';
+import Enrollment from '../entity/Enrollment';
+import EnrollmentRepository from '../repository/EnrollmentRepository';
+import LevelRepository from '../repository/LevelRepository';
+import ModuleRepository from '../repository/ModuleRepository';
+import ClassroomRepository from '../repository/ClassroomRepository';
+import Student from '../entity/Student';
+import RepositoryAbstractFactory from '../factory/RepositoryAbstractFactory';
+import EnrollmentStudentInputData from '../usecase/dto/EnrollmentStudentInputData';
+import EnrollmentStudentOutputData from '../usecase/dto/EnrollmentStudentOutputData';
 
 export default class EnrollStudent {
   levelRepository: LevelRepository;

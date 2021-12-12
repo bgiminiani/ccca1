@@ -1,21 +1,18 @@
-import CancelEnrollment from './CancelEnrollment';
-import EnrollmentStudentInputData from './EnrollmentStudentInputData';
-import EnrollStudent from './EnrollStudent';
-import GetEnrollment from './GetEnrollment';
-import RepositoryAbstractFactoryMemory from './RepositoryAbstractFactoryMemory';
+import EnrollmentStudentInputData from '../domain/usecase/dto/EnrollmentStudentInputData';
+import EnrollStudent from '../domain/usecase/EnrollStudent';
+import GetEnrollment from '../domain/usecase/GetEnrollment';
+import RepositoryAbstractFactoryMemory from '../adapter/factory/RepositoryAbstractFactoryMemory';
 
 let enrollStudent: EnrollStudent;
 let getEnrollment: GetEnrollment;
-let cancelEnrollment: CancelEnrollment;
 
 beforeEach(() => {
   const repositoryAbstractFactoryMemory = new RepositoryAbstractFactoryMemory()
   enrollStudent = new EnrollStudent(repositoryAbstractFactoryMemory);
   getEnrollment = new GetEnrollment(repositoryAbstractFactoryMemory);
-  cancelEnrollment = new CancelEnrollment(repositoryAbstractFactoryMemory)
 })
 
-test('Deve cancelar uma fatura', () => {
+test('Deve recuperar matrícula com o saldo da fatura', () => {
   const enrollmentStudentInputData = new EnrollmentStudentInputData({
     studentName: 'Sabrina Alves',
     studentCpf: '372.916.940-86',
@@ -26,7 +23,7 @@ test('Deve cancelar uma fatura', () => {
     installments: 12
   });
   enrollStudent.execute(enrollmentStudentInputData);
-  cancelEnrollment.execute('2021EM1D0001');
   const getEnrollmentOutputData = getEnrollment.execute('2021EM1D0001');
-  expect(getEnrollmentOutputData.status).toBe('cancelled');
+  expect(getEnrollmentOutputData.code).toBe('2021EM1D0001');
+  expect(getEnrollmentOutputData.balance).toBe(16999.99);
 })

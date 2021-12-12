@@ -1,8 +1,8 @@
-import EnrollmentStudentInputData from './EnrollmentStudentInputData';
-import EnrollStudent from './EnrollStudent';
-import GetEnrollment from './GetEnrollment';
-import PayInvoice from './PayInvoice';
-import RepositoryAbstractFactoryMemory from './RepositoryAbstractFactoryMemory';
+import EnrollmentStudentInputData from '../domain/usecase/dto/EnrollmentStudentInputData';
+import EnrollStudent from '../domain/usecase/EnrollStudent';
+import GetEnrollment from '../domain/usecase/GetEnrollment';
+import PayInvoice from '../domain/usecase/PayInvoice';
+import RepositoryAbstractFactoryMemory from '../adapter/factory/RepositoryAbstractFactoryMemory';
 
 let enrollStudent: EnrollStudent;
 let getEnrollment: GetEnrollment;
