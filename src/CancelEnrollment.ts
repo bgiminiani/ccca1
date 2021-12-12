@@ -1,20 +1,16 @@
 import EnrollmentRepository from "./EnrollmentRepository";
 import RepositoryAbstractFactory from "./RepositoryAbstractFactory";
 
-export default class GetEnrollment {
+export default class CancelEnrollment {
   enrollmentRepository: EnrollmentRepository;
 
   constructor(repositoryFactory: RepositoryAbstractFactory) {
     this.enrollmentRepository = repositoryFactory.createEnrollmentRepository();
   }
 
-  execute(code: string): any {
+  execute(code: string): void {
     const enrollment = this.enrollmentRepository.findByCode(code);
-    const balance = enrollment?.getInvoiceBalance();
-    return {
-      code: enrollment?.code.value,
-      balance,
-      status: enrollment?.status
-    }
+    if (!enrollment) throw new Error('Enrollment not found');
+    enrollment.status = 'cancelled';
   }
 }

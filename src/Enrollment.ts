@@ -14,6 +14,7 @@ export default class Enrollment {
   issueDate: Date;
   sequence: number;
   code: EnrollmentCode;
+  status: string;
   installments: number;
   invoices: Invoice[];
 
@@ -30,6 +31,7 @@ export default class Enrollment {
     this.code = new EnrollmentCode(level.code, module.code, classroom.code, issueDate, sequence);
     this.invoices = [];
     this.installments = installments;
+    this.status = 'active'
     this.generateInvoice();
   }
 
