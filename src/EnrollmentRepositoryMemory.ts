@@ -25,4 +25,9 @@ export default class EnrollmentRepositoryMemory implements EnrollmentRepository{
   count(): number {
     return this.enrollments.length
   }
+
+  findByCode(code: string): Enrollment | undefined {
+    return this.enrollments.find(enrollment => enrollment.code.value === code);
+  }
+
 }
