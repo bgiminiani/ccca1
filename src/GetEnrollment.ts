@@ -10,8 +10,10 @@ export default class GetEnrollment {
 
   execute(code: string): any {
     const enrollment = this.enrollmentRepository.findByCode(code);
+    const balance = enrollment?.getInvoiceBalance();
     return {
       code: enrollment?.code.value,
+      balance
     }
   }
 }

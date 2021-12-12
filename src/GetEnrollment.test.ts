@@ -24,5 +24,6 @@ test('Deve recuperar matrícula com o saldo da fatura', () => {
   });
   enrollStudent.execute(enrollmentStudentInputData);
   const getEnrollmentOutputData = getEnrollment.execute('2021EM1D0001');
-  expect(getEnrollmentOutputData.code).toBe('2021EM1D0001')
+  expect(getEnrollmentOutputData.code).toBe('2021EM1D0001');
+  expect(getEnrollmentOutputData.balance).toBe(16999.99);
 })
